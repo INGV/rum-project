@@ -1,0 +1,23 @@
+---
+RULE_CONFIG_VERSION: 0.0.2
+VERSION_DATE: '2022-05-10'
+ACTION_NAME: DUBLINCORE
+CONFIG:
+  DC_TITLE: 'INGV mSEED Repository'
+  DC_SUBJECT: 'mSEED, waveform, seismic data'
+  DC_CREATOR: 'INGV ITALY'
+  DC_CONTRIBUTOR: 'network operator'
+  DC_PUBLISHER: 'EIDA ITALIA'
+  DC_TYPE: 'seismic waveform'
+  DC_FORMAT: 'MSEED'
+  DC_RIGHTS: 'open access'
+  DC_PARTOF: 'EIDA wf-catalog metadata'
+  MONGO:
+    DB_HOST: mongodb:27017
+    DB_NAME: wf_hand
+    USER: user
+    PASS: pass
+    AUTHENTICATE: false
+  STATION_ENDPOINT: http://webservices.ingv.it/fdsnws/station/1/query?
+  HTTP_CONNECTION: webservices.ingv.it
+  UPDATE_IF_EXIST: false

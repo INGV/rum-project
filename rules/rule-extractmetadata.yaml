@@ -1,0 +1,42 @@
+# Disclaimer:
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    any later version.
+#    This script is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY.
+#
+# Copyright:
+#    2023 Massimo Fares, INGV - Italy <massimo.fares@ingv.it>; EIDA Italia Team, INGV - Italy  <adaisacd.ont@ingv.it>
+#
+---
+RULE_MAP_VERSION: 0.0.2
+VERSION_DATE: '2022-05-10'
+RULE_NAME: EXTRACTMETADATA
+ACTIONS_SEQUENCE:
+  '1': WFCATALOG
+  '2': HANDLE
+  '3': PIDDING
+  '4': PROVENANCE
+ACTION_MAP:
+  WFCATALOG: wfccollector
+  PIDDING: pidcreate
+  HANDLE: dublincore
+  PROVENANCE: provenance
+ACTION_RULE_CONFIG:
+  wfccollector:
+    MONGO:
+      ENABLED: true
+      # switch between db dev and prod
+      # dev
+      # DB_HOST: sds-writer-dev.int.ingv.it:27017
+      # prod
+      DB_HOST: mongodb:27017
+      DB_NAME: wfrepo
+      USER: user
+      PASS: pass
+      AUTHENTICATE: false
+      ALLOW_DOUBLE: false
+  pidcreate:
+    # if dry_run is true do not register pid on worldwide resolver
+    DRY_RUN: false

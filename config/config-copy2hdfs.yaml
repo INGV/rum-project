@@ -1,0 +1,12 @@
+---
+RULE_CONFIG_VERSION: 0.0.2
+VERSION_DATE: '2022-05-10'
+ACTION_NAME: COPY_TO_HDFS
+CONFIG:
+  "HDFS":
+    "WEBHDFS_URL": "http://master02.spark.int.ingv.it:14000",
+    "DEST_PATH": "/user/massimo.fares"
+  "KERBEROS":
+    "KEYTAB": "/usr/src/code/project/spare/massimo.fares.keytab",
+    "PRINCIPAL": "massimo.fares@SPARK.INT.INGV.IT"
+

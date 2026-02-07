@@ -1,0 +1,30 @@
+# Disclaimer:
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    any later version.
+#    This script is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY.
+#
+# Copyright:
+#    2023 Massimo Fares, INGV - Italy <massimo.fares@ingv.it>; EIDA Italia Team, INGV - Italy  <adaisacd.ont@ingv.it>
+#
+---
+RULE_MAP_VERSION: 0.0.2
+VERSION_DATE: '2022-05-10'
+RULE_NAME: UPDATEMETADATA
+ACTIONS_SEQUENCE:
+  '1': UPDATE_WFCATALOG
+  '2': DUBLINCORE
+  '3': PIDDING
+ACTION_MAP:
+  UPDATE_WFCATALOG: wfcupdater
+  DUBLINCORE: dublincore
+  PIDDING: pidding
+ACTION_RULE_CONFIG:
+  wfcupdater:
+    IF_OK_EXIT: true
+_list_available_:
+  '1': UPDATE_WFCATALOG
+  '2': DUBLINCORE
+  '3': PIDDING

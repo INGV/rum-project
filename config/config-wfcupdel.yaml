@@ -1,0 +1,30 @@
+---
+RULE_CONFIG_VERSION: 0.0.2
+VERSION_DATE: '2022-05-10'
+ACTION_NAME: WFC_UPDATER
+CONFIG:
+  VERSION: 0.5.0
+  VERSION_DATE: '2021-07-07'
+  ARCHIVE: EIDA NODE
+  PUBLISHER: OBSPY MSEED-QC
+  STRUCTURE: SDS
+  ARGS:
+    csegs: true
+    flags: true
+    file: none
+  IF_OK_EXIT: false
+  MODE: REMOVE
+  MONGO:
+    ENABLED: true
+    DB_HOST: mongodb:27017
+    DB_NAME: wfrepo
+    USER: user
+    PASS: pass
+    AUTHENTICATE: false
+    ALLOW_DOUBLE: false
+  ARCHIVE_ROOT: "/var/lib/archive/trust/"
+  PROCESSING_TIMEOUT: 120
+  FILTERS:
+    WHITE:
+    - "*"
+    BLACK: []

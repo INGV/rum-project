@@ -1,0 +1,54 @@
+---
+RULE_CONFIG_VERSION: 0.0.2
+VERSION_DATE: '2022-05-10'
+ACTION_NAME: SANITY_CHECK
+CONFIG:
+  STATION_ENDPOINT: https://webservices.ingv.it/fdsnws/station/1/query?
+  ARCHIVE_BAD: "/var/lib/archive/bad/"
+  IF_BAD_GOTO: none
+  BAD_SDS: true
+  NOT_MOVE: false
+  TYPE_CODE:
+    - D
+    #- E
+    #- L 
+  BAND_CODE:
+    F:
+        - 1000
+        - 5000
+    G:
+        - 1000
+        - 5000
+    D: 
+        - 250
+        - 1000
+    C:
+        - 250
+        - 1000
+    E:
+        - 80
+        - 250
+    S: 
+        - 10
+        - 80
+    H:
+        - 80
+        - 250
+    B:
+        - 10
+        - 80
+    M:
+        - 1.1
+        - 10
+    L: 
+        - 1
+        - 1
+    V:
+        - 0.1
+        - 0.1
+    U:
+        - 0.01 
+        - 0.01
+
+# original values L=[0.8, 1.1], V=[0.025, 0.8] U=none
+

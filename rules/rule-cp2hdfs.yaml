@@ -1,0 +1,30 @@
+# Disclaimer:
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    any later version.
+#    This script is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY.
+#
+# Copyright:
+#    2023 Massimo Fares, INGV - Italy <massimo.fares@ingv.it>; EIDA Italia Team, INGV - Italy  <adaisacd.ont@ingv.it>
+#
+---
+RULE_MAP_VERSION: 0.0.2
+VERSION_DATE: '2022-05-10'
+RULE_NAME: CP_TO_HDFS
+ACTIONS_SEQUENCE:
+  '1': CP_TO_HDFS
+
+ACTION_MAP:
+  CP_TO_ARCHIVE: copy2hdfs
+
+# overwrite action config by this rule
+ACTION_RULE_CONFIG:
+  copy2hdfs:
+    ARCHIVE_TRUST: "/var/lib/archive/trust/"
+    ARCHIVE_WARNING: "/var/lib/archive/warning/"
+    ARCHIVE_BAD: "/var/lib/archive/bad/"
+    # mv not cp : if true move file from input-dir to trust-archive otherwise(false) copy
+    MV_NOT_CP: true
+

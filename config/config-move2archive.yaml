@@ -1,0 +1,11 @@
+---
+RULE_CONFIG_VERSION: 0.0.2
+VERSION_DATE: '2022-05-10'
+ACTION_NAME: MOVE_TO_ARCHIVE
+CONFIG:
+  TAG_FILE: ".maintenance"
+  TAG_WARNING: ".warning"
+  ARCHIVE_TRUST: "/var/lib/archive/trust/"
+  ARCHIVE_WARNING: "/var/lib/archive/working/"
+  ARCHIVE_VERSION: "/var/lib/archive/version/"
+  MV_NOT_CP: true

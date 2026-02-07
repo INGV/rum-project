@@ -1,0 +1,55 @@
+version: "3"
+services:
+########## RULE MANAGER  4 CURATION ########## # SLICE-TAGWORKER
+
+    rule-manager:
+        image: base-ruler:1.7
+        container_name: rum-curation-TAGWORKER
+        # restart: always
+        tty: true
+        hostname: rule-manager-light-TAGWORKER
+        user: sysop
+        # command: /usr/bin/bash -c 'python3 rum.py --mode d --policy-set checkin'
+        # command: /usr/bin/bash -c 'python3 rum.py --mode d --policy-set checkout'
+        # command: /usr/bin/bash -c 'python3 rum.py --mode d --policy-set reloadwf'
+        # command: /usr/bin/bash -c 'python3 rum.py --mode d --policy-set checkin-offline'
+        # command: /usr/bin/bash -c 'python3 rum.py --mode d --policy-set checkout-offline'
+        volumes:
+            # app volumes:
+            #   framework code
+            - /opt/gitwork/curation/rum_framework:/usr/src/code
+            #   project code
+            - /opt/gitwork/curation/curation_project:/usr/src/code/project
+            #   logs
+            - /mnt/trust-archive/log/TAGWORKER:/usr/src/code/log
+
+            # working volumes:
+            #   in
+            - /data/test-archive/checkin/TAGWORKER:/var/lib/archive/checkin
+            #   out
+            - /data/test-archive/checkout/TAGWORKER:/var/lib/archive/checkout
+            #   scratch
+            - /data/test-archive/scratch/TAGWORKER:/var/lib/archive/scratch
+
+            # output volumes:
+            #   trust archive
+            - /mnt/trust-archive/trust:/var/lib/archive/trust
+            #   work archive
+            - /mnt/trust-archive/working:/var/lib/archive/working
+            #   version archive
+            - /mnt/trust-archive/version:/var/lib/archive/version
+            #   past archive
+            - /mnt/trust-archive/past:/var/lib/archive/past
+
+            #   no trust files
+            - /mnt/trust-archive/bad:/var/lib/archive/bad
+            - /mnt/trust-archive/warning:/var/lib/archive/warning
+            - /mnt/trust-archive/noauth:/var/lib/archive/noauth
+            
+
+        networks:
+            - wf_catalog_git_wfcatalog
+
+networks:
+    wf_catalog_git_wfcatalog:
+        external: true                

@@ -1,0 +1,22 @@
+# Disclaimer:
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    any later version.
+#    This script is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY.
+#
+# Copyright:
+#    2023 Massimo Fares, INGV - Italy <massimo.fares@ingv.it>; EIDA Italia Team, INGV - Italy  <adaisacd.ont@ingv.it>
+#
+---
+POLICY_MAP_VERSION: 0.0.2
+VERSION_DATE: '2022-05-10'
+POLICY_NAME: validates
+POLICY_DESCRIPTION: does a Validation for NEW data files, provided by any other channels but NOT via ingestion-policy.
+LOG_FILE: rum_validates.log
+LOG_LEVEL: INFO
+WATCHED_ARCHIVE: "/var/lib/archive/certification/"
+RULES_SEQUENCE:
+  '1': filevalidate
+

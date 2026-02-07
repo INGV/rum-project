@@ -1,0 +1,23 @@
+# Disclaimer:
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    any later version.
+#    This script is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY.
+#
+# Copyright:
+#    2023 Massimo Fares, INGV - Italy <massimo.fares@ingv.it>; EIDA Italia Team, INGV - Italy  <adaisacd.ont@ingv.it>
+#
+---
+POLICY_MAP_VERSION: 0.0.2
+VERSION_DATE: '2022-05-10'
+POLICY_NAME: checkin-offline
+POLICY_DESCRIPTION: does a CHECK-IN for off-line-data files in order to extract metadata and put it into trusted archive
+LOG_FILE: rum_checkin-offline.log
+LOG_LEVEL: INFO
+WATCHED_ARCHIVE: "/var/lib/archive/checkin/"
+RULES_SEQUENCE:
+  '1': filechecks-offline
+  '2': extractmetadata_reload
+  '3': cp2archive

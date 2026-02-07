@@ -1,0 +1,41 @@
+# Disclaimer:
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    any later version.
+#    This script is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY.
+#
+# Copyright:
+#    2023 Massimo Fares, INGV - Italy <massimo.fares@ingv.it>; EIDA Italia Team, INGV - Italy  <adaisacd.ont@ingv.it>
+#
+---
+RULE_MAP_VERSION: 0.0.2
+VERSION_DATE: '2022-05-10'
+RULE_NAME: REMOVEMETADATA
+ACTIONS_SEQUENCE:
+  '1': RM_WFCATALOG
+  '2': RM_DUBLINCORE
+  '3': RM_PIDDING
+  '4': RM_PROVENANCE
+
+ACTION_MAP:
+  RM_WFCATALOG: wfcupdel
+  RM_DUBLINCORE: dublincoreupdel
+  RM_PIDDING: pidupdel
+  RM_PROVENANCE: provupdel
+
+ACTION_RULE_CONFIG:
+  wfcupdel:
+    MODE: REMOVE
+    MONGO:
+      ENABLED: true
+      DB_HOST: mongodb:27017
+      DB_NAME: wfrepo
+      USER: user
+      PASS: pass
+      AUTHENTICATE: false
+  dublincoreupdel:
+    RESTORE: false
+  pidupdel:
+    RESTORE: false

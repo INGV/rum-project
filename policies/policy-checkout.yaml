@@ -1,0 +1,27 @@
+# Disclaimer:
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    any later version.
+#    This script is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY.
+#
+# Copyright:
+#    2023 Massimo Fares, INGV - Italy <massimo.fares@ingv.it>; EIDA Italia Team, INGV - Italy  <adaisacd.ont@ingv.it>
+#
+---
+POLICY_MAP_VERSION: 0.0.2
+VERSION_DATE: '2022-05-10'
+POLICY_NAME: CHECK-OUT
+POLICY_DESCRIPTION: does a CHECK-OUT for data file in order to pull it from trusted archive and clear/hide relevant metadata
+LOG_FILE: rum_checkout.log
+LOG_LEVEL: INFO
+WATCHED_ARCHIVE: "/var/lib/archive/checkout/"
+RULES_SEQUENCE:
+  '1': tagafile
+  '2': removemetadata
+  '3': checkout2working
+# RULES_FLOW:
+#             R1: puts a tag on the archived file to hide it (e.g. do not serve on web services) until it is fixed
+#             R2: remove/delete/disable metadata in order to avoid incoherence between metadata database and files archive
+#             R3: move file from checkout directory to trust archive

@@ -1,0 +1,37 @@
+---
+###### PREFLY_CHECKS Action config
+RULE_CONFIG_VERSION: 0.0.2
+VERSION_DATE: '2022-05-10'
+ACTION_NAME: PREFLY_CHECKS
+CONFIG:
+  # tag on files in archive_trust when pulled out  
+  TAG_FILE: ".maintenance" 
+  ARCHIVE_TRUST: "/var/lib/archive/trust/"
+  # set if have to check if file is equal that which into archive (true means do a check)
+  CHK_ARCHIVE: false
+  # warning: file already in archive
+  ARCHIVE_WARNING: "/var/lib/archive/warning/"
+  # if file will be moved to archive warning this is a sds structure or not
+  WARNING_SDS: true
+  # check if file in archive is tagged
+  CHK_TAGGED: false
+  TAG_WARNING: ".warning"
+  CHK_AUTH: true
+  # not auth file
+  ARCHIVE_NO_AUTH: "/var/lib/archive/noauth/"
+  IF_NO_AUTH_GOTO: none
+  NO_AUTH_SDS: true
+  TAG_NO_AUTH: ""
+  # scratchpad area
+  ARCHIVE_SCRATCH: "/var/lib/archive/scratch/"
+  SCRATCH_SDS: true
+
+  # authoritative networks    
+  MONGO:
+    #DB_HOST: mongodb:27017
+    #DB_NAME: wf_hand
+    DB_HOST: ws-qc-1.int.ingv.it:27017
+    DB_NAME: wf_hand
+    USER: user
+    PASS: pass
+    AUTHENTICATE: false

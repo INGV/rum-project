@@ -1,0 +1,45 @@
+---
+RULE_CONFIG_VERSION: 0.0.2
+VERSION_DATE: '2022-05-10'
+ACTION_NAME: PROVENANCE
+CONFIG:
+  DC_TITLE: 'INGV mSEED Repository'
+  DC_SUBJECT: 'mSEED, waveform, seismic data'
+  DC_CREATOR: 'INGV ITALY'
+  DC_CONTRIBUTOR: 'network operator'
+  DC_PUBLISHER: 'EIDA ITALIA'
+  DC_TYPE: 'seismic waveform'
+  DC_FORMAT: 'MSEED'
+  DC_RIGHTS: 'open access'
+  DC_PARTOF: 'EIDA wf-catalog wf-Handle metadata'
+  ATTRIBUTE_TO: "Italian EIDA node"
+  MONGO:
+    DB_HOST: mongodb:27017
+    DB_NAME: wf_prov
+    USER: user
+    PASS: pass
+    AUTHENTICATE: false
+  MONGO_DC:
+    DB_HOST: mongodb:27017
+    DB_NAME: wf_hand
+    USER: user
+    PASS: pass
+    AUTHENTICATE: false  
+  STATION_ENDPOINT: http://webservices.ingv.it/fdsnws/station/1/query?
+  HTTP_CONNECTION: webservices.ingv.it
+  UPDATE_IF_EXIST: false
+  RESOLVER: "http://hdl.handle.net/"
+  PREFIX: "11099"
+  GENERATED_BY:
+    SW_APP:
+      - "http://ds.iris.edu/pub/programs/SeedLink/"
+    ORGANIZZATION: "network operator"
+    PERIODICITY: "continuous"
+  USAGE:
+    - "https://github.com/obspy/obspy"
+    - "https://github.com/qt/qttools/tree/5.3" 
+  REVISION_OF:
+    SW_APP:
+      - "https://github.com/obspy/obspy"
+      - "https://github.com/qt/qttools/tree/5.3"
+    ORGANIZZATION: 'ONT - INGV ITALY'

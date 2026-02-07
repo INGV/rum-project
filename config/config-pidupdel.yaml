@@ -1,0 +1,19 @@
+---
+RULE_CONFIG_VERSION: 0.0.2
+VERSION_DATE: '2022-05-10'
+ACTION_NAME: PIDUPDEL
+CONFIG:
+    MONGO:
+        DB_HOST: mongodb:27017
+        DB_NAME: wf_hand
+        USER: user
+        PASS: pass
+        AUTHENTICATE: false
+    CRED_FILE: "project/secrets/credentials.json"
+    PREFIX: "11099"
+    BASE_LOCATION: "https://repo.data.ingv.it"
+    MAINT_LOCATION: "https://repo.data.ingv.it/maintenance"
+    MODE: "UPDATE"
+    RESTORE: false
+    # if dry is true do not register pid on worldwide resolver
+    DRY_RUN: true

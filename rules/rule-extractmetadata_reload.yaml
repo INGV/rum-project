@@ -1,0 +1,44 @@
+# Disclaimer:
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    any later version.
+#    This script is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY.
+#
+# Copyright:
+#    2023 Massimo Fares, INGV - Italy <massimo.fares@ingv.it>; EIDA Italia Team, INGV - Italy  <adaisacd.ont@ingv.it>
+#
+---
+RULE_MAP_VERSION: 0.0.2
+VERSION_DATE: '2022-05-10'
+RULE_NAME: EXTRACTMETADATA
+ACTIONS_SEQUENCE:
+  '1': WFCATALOG
+  # '2': DUBLINCORE
+  # '3': PIDDING
+ACTION_MAP:
+  WFCATALOG: wfccollector
+  PIDDING: pidcreate
+  DUBLINCORE: dublincore
+ACTION_RULE_CONFIG:
+  wfccollector:
+    ARGS:
+      csegs: true
+      flags: true
+      update: false
+      force: false
+      file: none
+    MONGO:
+      ENABLED: true
+      # prod
+      DB_HOST: ws-qc-1.int.ingv.it:27017
+      # dev/staging
+      # DB_HOST: mongodb:27017
+      # DB_HOST: sds-writer-dev.int.ingv.it:27017
+      # DB_HOST: sds-staging.int.ingv.it:27017
+      DB_NAME: wfrepo
+      USER: user
+      PASS: pass
+      AUTHENTICATE: false
+      ALLOW_DOUBLE: false

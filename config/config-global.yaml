@@ -1,0 +1,7 @@
+---
+RUM-VERSION: 0.2.0
+MAINTAINER: adaisacd.ont@ingv.it
+POLICY_SET: cleanandload
+LOG_FILE: rule-manager.log
+LOG_LEVEL: INFO
+WATCHED_ARCHIVE: "/var/lib/archive/checkout/"

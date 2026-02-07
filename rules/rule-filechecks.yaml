@@ -1,0 +1,45 @@
+# Disclaimer:
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    any later version.
+#    This script is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY.
+#
+# Copyright:
+#    2023 Massimo Fares, INGV - Italy <massimo.fares@ingv.it>; EIDA Italia Team, INGV - Italy  <adaisacd.ont@ingv.it>
+#
+---
+RULE_MAP_VERSION: 0.0.2
+VERSION_DATE: '2022-05-10'
+RULE_NAME: FILE_CHECKS
+ACTIONS_SEQUENCE:
+  '1': PRE-FLY_CHECKS
+  '2': SANITY_CHECKS
+ACTION_MAP:
+  PRE-FLY_CHECKS: preflychecks
+  SANITY_CHECKS: sanitychecks
+ACTION_RULE_CONFIG:
+  preflychecks:
+    # enable authorized network check
+    CHK_AUTH: true
+    IF_BAD_GOTO: none
+    # authoritative networks on mongo (to populate: launch spare/auth_net.py)   
+    MONGO:
+      # dev/stage
+      DB_HOST: mongodb:27017
+      # prod
+      # DB_HOST: ws-qc-1.int.ingv.it:27017
+      DB_NAME: wf_hand
+      USER: user
+      PASS: pass
+      AUTHENTICATE: false
+  sanitychecks:
+    # switch between prod and staging station ws
+    # staging
+    #STATION_ENDPOINT: http://sds-writer-dev.int.ingv.it:8088/exist/apps/fdsn-station/fdsnws/station/1/query?
+    # prod
+    STATION_ENDPOINT: http://webservices.ingv.it/fdsnws/station/1/query?
+    IF_BAD_GOTO: none
+    # not_move: if true don't move bad files
+    NOT_MOVE: true

@@ -1,0 +1,7 @@
+---
+RULE_CONFIG_VERSION: 0.0.2
+VERSION_DATE: '2022-05-10'
+ACTION_NAME: TAGAFILE
+CONFIG:
+  TAG_FILE: ".maintenance"
+  ARCHIVE_TRUST: "/var/lib/archive/trust/"
