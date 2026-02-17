@@ -14,7 +14,7 @@ This project contains:
 - **Policies**: define workflows and link rules
 - **Rules**: define conditional logic and trigger actions
 - **Actions**: perform actual tasks on files (checks, metadata extraction, copying)
-- **Input files**: the data files to be processed by the workflow
+
 
 ---
 
@@ -26,8 +26,8 @@ The **Check-in policy** orchestrates the ingestion and validation of new data fi
 
 **Associated rules:**
 - `rules/rule-filechecks.yaml` — validates file integrity and format
-- `rules/rule-extractmetadata.yaml` — extracts metadata from the file
-- `rules/rule-cp2archive.yaml` — copies the validated file to the archive
+- `rules/rule-extractmetadata.yaml` — extracts/associate metadata from the file
+- `rules/rule-cp2archive.yaml` — copies/move the validated file to the archive
 
 ### Flow Description
 
@@ -49,10 +49,10 @@ The **Check-in policy** orchestrates the ingestion and validation of new data fi
   - Action: verify file checksum, validate filename pattern
   - Override: none, uses defaults
 - **rule-extractmetadata**:
-  - Action: extract header info, compute timestamps
+  - Action: extract header info, compute timestamps, mint a PID
   - Override: sets specific parsing options for this rule
 - **rule-cp2archive**:
-  - Action: copy file to archive location
+  - Action: copy/move file to archive location
   - Override: sets archive path based on project configuration
 
 4. **Result**
@@ -81,7 +81,7 @@ The **Check-in policy** orchestrates the ingestion and validation of new data fi
 2. Run the RUM sequencer with the `policy-checkin` policy:
 
 ```bash
-rum-cli run --policy policy-checkin --input /path/to/new/file
+python3 ../rum.py --t --policy policy-checkin --input /path/to/new/file
 ```
 
 3. The sequencer evaluates the rules and executes actions in order.
@@ -93,11 +93,10 @@ rum-cli run --policy policy-checkin --input /path/to/new/file
 
 - Actions are **reusable** and may be invoked by multiple rules or policies.
 - Rule-specific configuration **overrides** action defaults to adapt behavior.
-- This example demonstrates a minimal, conceptual workflow; additional rules or policies can extend the project.
 
 ---
 
 ## References
 
 - [RUM Framework](https://github.com/INGV/rum-framework) — Core engine documentation
-- *INGV RUM — A Lightweight Rule Manager Framework*, Rapporti Tecnici INGV 508 (2025), DOI: 10.13127/rpt/508
+- *INGV RUM — A Lightweight Rule Manager Framework*, Rapporti Tecnici INGV 508 (2025), DOI: [10.13127/rpt/508](https:doi.org/10.13127/rpt/508)
