@@ -1,102 +1,245 @@
 # RUM Project — Curation Example
 
-This repository demonstrates a concrete **project using the RUM Framework**. It shows how policies, rules, and actions are applied to manage and process data files in a structured workflow.
+This repository contains a concrete **RUM Project** built on top of the **[RUM Framework](https://github.com/INGV/rum-framework)**.
 
-The example focuses on the **Check-in policy**, which is the main workflow for ingesting and validating data files.
+While the **RUM Framework** provides the generic execution engine, a **Project** defines the actual behaviour of the system by supplying Policies, Rules, Actions, Contexts and project-specific modules.
 
----
+> **The framework executes. The project defines the behaviour.**
 
-## Project Overview
+This repository should therefore be considered both:
 
-RUM provides the core engine for policy-driven workflows, but a **project** like this one provides the actual configuration, rules, and input data to process. Without a project, the engine alone does not perform any operations.
-
-This project contains:
-- **Policies**: define workflows and link rules
-- **Rules**: define conditional logic and trigger actions
-- **Actions**: perform actual tasks on files (checks, metadata extraction, copying)
-
+* a working example of a RUM project;
+* a starting point for developing new RUM-based applications.
 
 ---
 
-## Key Workflow: Check-in Policy
+# Relationship with the RUM Framework
 
-The **Check-in policy** orchestrates the ingestion and validation of new data files.
+RUM intentionally separates the execution engine from the application domain.
 
-**Policy file:** `policies/policy-checkin.yaml`
+The **Framework** is responsible for:
 
-**Associated rules:**
-- `rules/rule-filechecks.yaml` — validates file integrity and format
-- `rules/rule-extractmetadata.yaml` — extracts/associate metadata from the file
-- `rules/rule-cp2archive.yaml` — copies/move the validated file to the archive
+* sequencing;
+* configuration management;
+* action loading;
+* logging;
+* session management;
+* workflow orchestration.
 
-### Flow Description
+The **Project** provides:
 
-1. **Policy activation**
-   - The `policy-checkin` policy is triggered when a new file arrives.
-   - The policy defines which rules will be executed and in what order.
+* Policies;
+* Rules;
+* Actions;
+* Contexts;
+* project-specific modules;
+* project-specific configurations.
 
-2. **Rule evaluation**
-   - Each rule is evaluated sequentially by the RUM **sequencer**.
-   - Rules check conditions, such as file type, integrity, and presence of required metadata.
-
-3. **Action execution**
-   - When a rule condition is satisfied, it triggers its associated **actions**.
-   - Actions may have default parameters overridden by the rule configuration.
-
-**Example sequence:**
-
-- **rule-filechecks**:
-  - Action: verify file checksum, validate filename pattern
-  - Override: none, uses defaults
-- **rule-extractmetadata**:
-  - Action: extract header info, compute timestamps, mint a PID
-  - Override: sets specific parsing options for this rule
-- **rule-cp2archive**:
-  - Action: copy/move file to archive location
-  - Override: sets archive path based on project configuration
-
-4. **Result**
-   - The file has been validated, metadata extracted, and stored in the archive.
-   - All actions are logged for traceability.
+This separation allows the same RUM Framework to support multiple independent projects without modifying the framework itself.
 
 ---
 
-## Repository Structure
+# Repository Structure
 
 ```
-├── actions/         # reusable action implementations
-├── config/          # project-specific configurations
-├── modules/         # helper modules and utilities
-├── policies/        # policy definitions (e.g., policy-checkin.yaml)
-├── rules/           # rule definitions (e.g., rule-filechecks.yaml)
-├── utils/           # utility scripts
+project/
+│
+├── actions/        # reusable Action implementations
+├── config/         # Action configuration files
+├── contexts/       # execution Context definitions
+├── modules/        # project-specific Python modules
+├── policies/       # Policy definitions
+├── rules/          # Rule definitions
+├── utils/          # project utility functions
 └── README.md
 ```
 
+Each directory represents one aspect of the project-specific logic executed by the RUM Framework.
+
 ---
 
-## How to Use
+# Core Components
 
-1. Place the incoming data file in the monitored input directory.
-2. Run the RUM sequencer with the `policy-checkin` policy:
+A RUM Project is composed of four main elements.
 
-```bash
-python3 ../rum.py --t --policy policy-checkin --input /path/to/new/file
+## Policies
+
+Policies describe the overall workflow.
+
+A Policy specifies:
+
+* which Rules will be executed;
+* the execution order;
+* the operational objective.
+
+Policies do **not** implement business logic.
+
+---
+
+## Rules
+
+Rules organize the execution flow.
+
+They decide:
+
+* when an Action should be executed;
+* which configuration overrides should be applied.
+
+Rules connect Policies with Actions.
+
+---
+
+## Actions
+
+Actions are the fundamental execution units of a RUM Project.
+
+Each Action performs one specific task, for example:
+
+* validating files;
+* extracting metadata;
+* generating Persistent Identifiers;
+* updating provenance;
+* copying files;
+* invoking external services.
+
+Actions should remain:
+
+* reusable;
+* independent;
+* self-contained;
+* easy to understand.
+
+Whenever possible, complexity should be implemented inside Actions rather than inside the framework.
+
+---
+
+## Contexts
+
+Projects may optionally define one or more **Contexts**.
+
+A Context contains execution-specific information shared by all Actions during a processing session.
+
+Typical information includes:
+
+* issue identifiers;
+* requesting organizations;
+* provenance metadata;
+* execution options;
+* project-specific operational information.
+
+The Context is loaded once during the RUM bootstrap phase and remains read-only for the entire execution.
+
+Its purpose is **not** to modify the framework behaviour, but to describe the operational environment in which a Policy is executed.
+
+---
+
+# Developing New Actions
+
+One of the design goals of RUM is that **Actions can be developed independently from the framework**.
+
+Developers should not need to execute the complete framework while writing a new Action.
+
+For this reason, every project includes an **Action Template**.
+
+---
+
+## The Action Template
+
+The provided `action-template.py` implements all conventions required by the framework, including:
+
+* Action class structure;
+* constructor interface;
+* configuration loading;
+* logging support;
+* Session access;
+* Context access;
+* standalone execution for testing.
+
+Developers are encouraged to use the template as the starting point for every new Action.
+
+---
+
+## Recommended Development Workflow
+
+The recommended workflow for implementing a new Action is intentionally simple.
+
+```
+Copy action-template.py
+          │
+          ▼
+Implement the Action
+          │
+          ▼
+Execute it as a standalone program
+          │
+          ▼
+Validate the behaviour
+          │
+          ▼
+Add the Action configuration
+          │
+          ▼
+Reference the Action inside a Rule
+          │
+          ▼
+Execute the complete workflow through RUM
 ```
 
-3. The sequencer evaluates the rules and executes actions in order.
-4. Check logs or the archive folder to verify that the file has been processed successfully.
+Developing Actions outside the framework considerably simplifies debugging and testing.
+
+Only after an Action has been validated should it be integrated into a Rule and executed by the RUM sequencer.
 
 ---
 
-## Notes
+# Example Workflow
 
-- Actions are **reusable** and may be invoked by multiple rules or policies.
-- Rule-specific configuration **overrides** action defaults to adapt behavior.
+This project demonstrates the **Check-in Policy**, responsible for validating and ingesting new files into the trusted archive.
+
+The workflow is composed of three Rules.
+
+## 1. File Checks
+
+* validate file integrity;
+* verify filename format;
+* perform sanity checks.
+
+## 2. Metadata Extraction
+
+* extract metadata;
+* generate Handle/PID;
+* create provenance information.
+
+## 3. Archive Update
+
+* move the validated file into the trusted archive;
+* complete the ingestion process.
+
+Each Rule invokes one or more Actions that perform the actual work.
 
 ---
 
-## References
+# Design Philosophy
 
-- [RUM Framework](https://github.com/INGV/rum-framework) — Core engine documentation
-- *INGV RUM — A Lightweight Rule Manager Framework*, Rapporti Tecnici INGV 508 (2025), DOI: [10.13127/rpt/508](https:doi.org/10.13127/rpt/508)
+Projects are expected to follow the same philosophy as the RUM Framework.
+
+Keep Projects:
+
+* simple;
+* modular;
+* readable;
+* reusable.
+
+Whenever possible:
+
+* add a new Action instead of modifying an existing one;
+* add a new Rule instead of introducing complex conditional logic;
+* add a new Policy instead of creating special cases inside the framework.
+
+Following the **[Bicycle Principle](https://github.com/INGV/rum-framework#the-bicycle-principle)**, complexity should emerge from Projects—not from the RUM Framework itself.
+
+---
+
+# References
+
+* **RUM Framework** — https://github.com/INGV/rum-framework
+* **INGV RUM — A Lightweight Rule Manager Framework**, Rapporti Tecnici INGV 508 (2025), DOI: https://doi.org/10.13127/rpt/508
