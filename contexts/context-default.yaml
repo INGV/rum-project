@@ -1,0 +1,31 @@
+# Disclaimer:
+#    This program is free software: you can redistribute it and/or modify
+#    it under the terms of the GNU General Public License as published by
+#    the Free Software Foundation, either version 3 of the License, or
+#    any later version.
+#    This script is distributed in the hope that it will be useful,
+#    but WITHOUT ANY WARRANTY.
+#
+# Copyright:
+#    2026 Massimo Fares, INGV - Italy <massimo.fares@ingv.it>; EIDA Italia Team, INGV - Italy  <adaisacd.ont@ingv.it>
+#
+---
+CONTEXT_SCHEMA_VERSION: 1.0
+
+ISSUE:
+    ID: null
+    TRACKER: null
+
+REQUEST:
+    REQUESTOR: null
+    ORGANIZATION: null
+    REASON: null
+    COMMENT: null
+
+PROVENANCE:
+    schema_Organization: null
+    prov_SoftwareAgent: []
+
+OPTIONS:
+    VERIFY_CHECKSUM: null
+    FORCE_VERSION: null

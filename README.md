@@ -1,10 +1,10 @@
 # RUM Project — Curation Example
 
-This repository contains a concrete **RUM Project** built on top of the **[RUM Framework](https://github.com/INGV/rum-framework)**.
+This repository contains a **RUM Project** built on top of the **[RUM Framework](https://github.com/INGV/rum-framework)**.
 
-While the **RUM Framework** provides the generic execution engine, a **Project** defines the actual behaviour of the system by supplying Policies, Rules, Actions, Contexts and project-specific modules.
+While the **RUM Framework** provides the generic execution engine, a **Project** defines the actual behavior of the system by supplying Policies, Rules, Actions, Contexts and project-specific modules.
 
-> **The framework executes. The project defines the behaviour.**
+> **The framework executes. The project defines the behavior.**
 
 This repository should therefore be considered both:
 
@@ -129,7 +129,7 @@ Typical information includes:
 
 The Context is loaded once during the RUM bootstrap phase and remains read-only for the entire execution.
 
-Its purpose is **not** to modify the framework behaviour, but to describe the operational environment in which a Policy is executed.
+Its purpose is **not** to modify the framework behavior, but to describe the operational environment in which a Policy is executed.
 
 ---
 
@@ -173,7 +173,7 @@ Implement the Action
 Execute it as a standalone program
           │
           ▼
-Validate the behaviour
+Validate the behavior
           │
           ▼
 Add the Action configuration
@@ -238,6 +238,67 @@ Whenever possible:
 Following the **[Bicycle Principle](https://github.com/INGV/rum-framework#the-bicycle-principle)**, complexity should emerge from Projects—not from the RUM Framework itself.
 
 ---
+# Incremental Adoption Strategy 
+## FDO-ODC Ready
+
+This project demonstrates how an FDO-ODC architecture can be adopted incrementally.
+
+Organizations do not need to immediately subscribe to an external PID registration service (e.g., EPIC PID) to start building an Information-Centric Data Center.
+
+> Organizations can adopt the complete FDO-ODC workflow without immediately relying on an external provider.
+
+By enabling the dry option for the PID generation Action, the framework skips the external PID registration while still performing the complete FDO-ODC workflow:
+
+* metadata enrichment
+* provenance generation
+* FAIR Digital Object assembly
+* validation
+* local identifier resolution through PID-LAND
+
+Once an external PID provider becomes available, switching to globally resolvable persistent identifiers only requires changing the configuration. No architectural changes are needed.
+
+**This allows institutions to develop, test and deploy an Information-Centric architecture before integrating with services such as EPIC PID or other Handle providers.**
+
+The transition from local to global persistent identifiers does not require architectural changes—only a configuration update.
+
+                dry = false
+                    │
+                    ▼
+        Register PID (EPIC / DONA)
+                    │
+                    ▼
+              Global Resolution
+
+
+                dry = true
+                    │
+                    ▼
+        Skip Global PID Registration
+                    │
+                    ▼
+       Local Resolution (PID-LAND)
+
+
+
+In both configurations, the workflow produces:
+
+```
+✓ Metadata
+✓ Provenance
+✓ Versioning
+✓ Validation
+✓ Information Services
+```
+
+## Why this matters
+
+The ability to operate without an external PID provider significantly lowers the adoption barrier for organizations wishing to implement an Information-Centric architecture.
+
+Institutions can progressively adopt FDO-ODC principles during development, testing and internal deployment, while preserving a seamless transition to globally resolvable persistent identifiers when external PID services become available.
+
+> **The architecture is adopted first.** 
+> 
+> **The infrastructure can follow later.**
 
 # References
 
